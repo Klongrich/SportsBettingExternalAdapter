@@ -22,7 +22,7 @@ const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'price'
-  const url = `https://min-api.cryptocompare.com/data/${endpoint}`
+  const url = `https://api.sportsdata.io/golf/v2/json/Leaderboard/385?key=7c37c361d5c145a68b1359689cd991e9`
   const fsym = validator.validated.data.base.toUpperCase()
   const tsyms = validator.validated.data.quote.toUpperCase()
 
