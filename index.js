@@ -12,23 +12,21 @@ const customError = (data) => {
 // with a Boolean value indicating whether or not they
 // should be required.
 const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  player: ['player', 'person'],
   endpoint: false
 }
+
 
 const createRequest = (input, callback) => {
   // The Validator helps you validate the Chainlink request data
   const validator = new Validator(callback, input, customParams)
-  const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || 'price'
+  const jobRunID = validator.validated.id //385
+  const endpoint = validator.validated.data.endpoint || '385'
   const url = `https://api.sportsdata.io/golf/v2/json/Leaderboard/385?key=7c37c361d5c145a68b1359689cd991e9`
-  const fsym = validator.validated.data.base.toUpperCase()
-  const tsyms = validator.validated.data.quote.toUpperCase()
+  const appID = "?key=7c37c361d5c145a68b1359689cd991e9"
 
   const params = {
-    fsym,
-    tsyms
+    appID
   }
 
   const config = {
@@ -38,12 +36,12 @@ const createRequest = (input, callback) => {
 
   // The Requester allows API calls be retry in case of timeout
   // or connection failure
-  Requester.request(config, customError)
+  Requester.request(url, customError)
     .then(response => {
       // It's common practice to store the desired value at the top-level
       // result key. This allows different adapters to be compatible with
       // one another.
-      response.data.result = Requester.validateResultNumber(response.data, [tsyms])
+      response.data.result = Requester.validateResultNumber(response.data.Players[0], ["TotalScore"])
       callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
